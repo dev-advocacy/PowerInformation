@@ -111,6 +111,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,6 +129,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,10 +145,12 @@
     </ClCompile>
     <ClCompile Include="PInformation.cpp" />
     <ClCompile Include="PowerInformation.cpp" />
+    <ClCompile Include="PProcInformation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="PInformation.h" />
+    <ClInclude Include="PProcInformation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg-configuration.json" />
