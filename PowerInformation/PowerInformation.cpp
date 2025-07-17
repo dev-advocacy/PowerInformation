@@ -101,6 +101,8 @@ int wmain(int argc, wchar_t* argv[])
     PProcInformation procInfo;
     procInfo.DumpCoreTypes();
 
+	auto defaultprofile = pInfo.GetDefaultPowerProfileName();
+	std::wcout << L"Default Power Profile: " << defaultprofile << std::endl;
     std::map<std::wstring, std::vector<SettingInfo>> profiles = pInfo.PowerEnumerateProfiles();
     std::wcout << L"Available Power Profiles and Filtered Settings:\n";
     for (const auto& profile : profiles)
