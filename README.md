@@ -63,13 +63,14 @@ PowerInformation.exe Help
 PowerInformation.exe Query
 PowerInformation.exe Set <ProfileName> <SettingName> <Value>
 ```
+
 ## Command-Line Arguments
 ```sh
 No parameters: Displays processor information and available power profiles.
 Help: Displays help information.
 Query: Queries the current power settings.
 Set <ProfileName> <SettingName> <Value>: Sets a specific power setting for the given profile.
-```sh
+```
 
 ## Example Commands
 ```sh
