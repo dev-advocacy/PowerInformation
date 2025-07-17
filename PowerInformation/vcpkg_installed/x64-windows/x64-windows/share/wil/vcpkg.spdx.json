@@ -1,0 +1,110 @@
+{
+  "$schema": "https://raw.githubusercontent.com/spdx/spdx-spec/v2.2.1/schemas/spdx-schema.json",
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "documentNamespace": "https://spdx.org/spdxdocs/wil-x64-windows-2024-01-22-02094cec-0b71-4bdf-a9af-cddeab30b893",
+  "name": "wil:x64-windows@2024-01-22 301a83823a6f3485f7e4f1e09cdb044a57e95a3ebae677c9a6d6cc95445f80dc",
+  "creationInfo": {
+    "creators": [
+      "Tool: vcpkg-2025-01-11-0f310537c75015100d200eb71b137f6376aad510"
+    ],
+    "created": "2025-07-10T07:55:46Z"
+  },
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "GENERATES",
+      "relatedSpdxElement": "SPDXRef-binary"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-0"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-1"
+    },
+    {
+      "spdxElementId": "SPDXRef-binary",
+      "relationshipType": "GENERATED_FROM",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-0",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-1",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    }
+  ],
+  "packages": [
+    {
+      "name": "wil",
+      "SPDXID": "SPDXRef-port",
+      "versionInfo": "2024-01-22",
+      "downloadLocation": "git+https://github.com/Microsoft/vcpkg@500a409fc60e5a27c68778c4e3090d1fb8e0224c",
+      "homepage": "https://github.com/microsoft/wil",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "description": "The Windows Implementation Libraries (WIL) is a header-only C++ library created to make life easier for developers on Windows through readable type-safe C++ interfaces for common Windows coding patterns.",
+      "comment": "This is the port (recipe) consumed by vcpkg."
+    },
+    {
+      "name": "wil:x64-windows",
+      "SPDXID": "SPDXRef-binary",
+      "versionInfo": "301a83823a6f3485f7e4f1e09cdb044a57e95a3ebae677c9a6d6cc95445f80dc",
+      "downloadLocation": "NONE",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "comment": "This is a binary package built by vcpkg."
+    },
+    {
+      "SPDXID": "SPDXRef-resource-0",
+      "name": "Microsoft/wil",
+      "downloadLocation": "git+https://github.com/Microsoft/wil@v1.0.240122.1",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "b6552924aadb036cf28d21a90d1259720b84fb7f34b2af30444257861143ed4f41cd58586a7cc4c6fb364e73264eaf77669ca988a4a9ef2fe29fdae9e992f936"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "fileName": "./C:/Users/gillesg/AppData/Local/vcpkg/registries/git-trees/500a409fc60e5a27c68778c4e3090d1fb8e0224c/portfile.cmake",
+      "SPDXID": "SPDXRef-file-0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "e2e137951f1ba52e40087d1b4ebc7a51f37be6eee96b1b004d8317be49e1fbfb"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./C:/Users/gillesg/AppData/Local/vcpkg/registries/git-trees/500a409fc60e5a27c68778c4e3090d1fb8e0224c/vcpkg.json",
+      "SPDXID": "SPDXRef-file-1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "a82f43c3bd264d66b7b814a73167f736d0d02b1b95ea9390c3f5474f9eb6b956"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    }
+  ]
+}
