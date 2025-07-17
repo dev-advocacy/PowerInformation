@@ -107,8 +107,10 @@ int wmain(int argc, wchar_t* argv[])
 	std::wcout << L"Available Power Profiles and Filtered Settings:\n";
 	for (const auto& profile : profiles)
 	{
+		// dump the profile name and description
+		std::wcout << L"Profile: " << profile.first << std::endl;
 		for (const auto& setting : profile.second)
-		{
+		{			
 			if (containsThreadType(setting.name)) {
 				std::wcout << L"    Setting: " << setting.name << L" - " << setting.description
 						   << L", AC: " << setting.acValue << L", DC: " << setting.dcValue << std::endl;

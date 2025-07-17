@@ -114,12 +114,20 @@ std::vector<SettingInfo> PInformation::EnumerateAllSettingsValues(const GUID* sc
 // Enumerate all power profiles and their settings
 std::map<std::wstring, std::vector<SettingInfo>> PInformation::PowerEnumerateProfiles()
 {
-    int scheme_idx = 0;
-    GUID scheme_guid = {};
-    DWORD guid_size = sizeof(GUID);
     std::map<std::wstring, std::vector<SettingInfo>> profileSettingsMap;
-    while (ERROR_SUCCESS == PowerEnumerate(nullptr, nullptr, nullptr, ACCESS_SCHEME, scheme_idx++, (UCHAR*)&scheme_guid, &guid_size))
+    DWORD scheme_idx = 0;
+    while (true)
     {
+        GUID scheme_guid = {};
+        DWORD guid_size = sizeof(GUID);
+        DWORD status = PowerEnumerate(nullptr, nullptr, nullptr, ACCESS_SCHEME, scheme_idx, (UCHAR*)&scheme_guid, &guid_size);
+        if (status == ERROR_NO_MORE_ITEMS)
+            break;
+        if (status != ERROR_SUCCESS)
+        {
+            scheme_idx++;
+            continue;
+        }
         wchar_t wszName[512] = {};
         DWORD dwLen = 511;
         DWORD dwRet = PowerReadFriendlyName(nullptr, &scheme_guid, nullptr, nullptr, (PUCHAR)wszName, &dwLen);
@@ -131,8 +139,7 @@ std::map<std::wstring, std::vector<SettingInfo>> PInformation::PowerEnumeratePro
         }
         std::vector<SettingInfo> settings = EnumerateAllSettingsValues(&scheme_guid);
         profileSettingsMap[profileName] = settings;
-        scheme_guid = {};
-        guid_size = sizeof(GUID);
+        scheme_idx++;
     }
     return profileSettingsMap;
 }
