@@ -46,6 +46,9 @@ bool containsThreadType(const std::wstring& text) {
 int wmain(int argc, wchar_t* argv[])
 {
 	PInformation pInfo;
+	// Change stdout to Unicode UTF-16
+	_setmode(_fileno(stdout), _O_U16TEXT);
+
 
 	// Help parameter support
 	if (argc >= 2 && (wcscmp(argv[1], L"Help") == 0 || wcscmp(argv[1], L"--help") == 0 || wcscmp(argv[1], L"-h") == 0)) {
@@ -56,6 +59,12 @@ int wmain(int argc, wchar_t* argv[])
 			<< L"    - Prints AC/DC values for the specified setting in the specified profile.\n"
 			<< L"  PowerInformation.exe Set \"<profile name>\" \"<setting name>\" <value>\n"
 			<< L"    - Sets AC/DC values for the specified setting in the specified profile.\n"
+			<< L"  PowerInformation.exe Dump \"<profile name>\"\n"
+			<< L"    - Prints all settings and their AC/DC values for the specified profile.\n"
+			<< L"  PowerInformation.exe Dump \"<profile name>\"\n"
+			<< L"    - Prints all settings and their AC/DC values for the specified profile.\n"
+			<< L"  PowerInformation.exe Dump \"<profile name>\"\n"
+			<< L"    - Prints all settings and their AC/DC values for the specified profile.\n"
 			<< L"\nExample:\n"
 			<< L"  PowerInformation.exe Get \"Balanced\" \"Heterogeneous thread scheduling policy\"\n"
 			<< L"  PowerInformation.exe Set \"Balanced\" \"Heterogeneous thread scheduling policy\" 1\n"
@@ -95,6 +104,46 @@ int wmain(int argc, wchar_t* argv[])
 				std::wcout << L"Failed to set value." << std::endl;
 			return 0;
 		}
+		else if (command == L"Dump" && argc >= 3)
+		{
+			std::wstring profile = argv[2];
+			// Find the GUID for the profile name
+			int scheme_idx = 0;
+			GUID scheme_guid = {};
+			DWORD guid_size = sizeof(GUID);
+			bool found = false;
+			while (ERROR_SUCCESS == PowerEnumerate(nullptr, nullptr, nullptr, ACCESS_SCHEME, scheme_idx++, (UCHAR*)&scheme_guid, &guid_size)) {
+				wchar_t wszName[512] = {};
+				DWORD dwLen = 511;
+				DWORD dwRet = PowerReadFriendlyName(nullptr, &scheme_guid, nullptr, nullptr, (PUCHAR)wszName, &dwLen);
+				std::wstring foundProfile = (dwRet == ERROR_SUCCESS) ? wszName : L"";
+				if (foundProfile.empty()) {
+					wchar_t scheme_guid_str[64] = {};
+					if (StringFromGUID2(scheme_guid, scheme_guid_str, 64) > 0) {
+						foundProfile = scheme_guid_str;
+					} else {
+						foundProfile = L"<invalid GUID>";
+					}
+				}
+				if (foundProfile == profile) {
+					found = true;
+					break;
+				}
+				scheme_guid = {};
+				guid_size = sizeof(GUID);
+			}
+			if (!found) {
+				std::wcout << L"Profile not found: " << profile << std::endl;
+				return 1;
+			}
+			std::vector<SettingInfo> settings = pInfo.EnumerateAllSettingsValues(&scheme_guid);
+			std::wcout << L"All settings for profile: " << profile << std::endl;
+			for (const auto& setting : settings) {
+				std::wcout << L"    Setting: " << setting.name << L" - " << setting.description
+						   << L", AC: " << setting.acValue << L", DC: " << setting.dcValue << std::endl;
+			}
+			return 0;
+		}
 	}
 
 	// Default: dump processor info and filtered settings
@@ -102,6 +151,8 @@ int wmain(int argc, wchar_t* argv[])
 	procInfo.DumpCoreTypes();
 
 	auto defaultprofile = pInfo.GetDefaultPowerProfileName();
+
+
 	std::wcout << L"Default Power Profile: " << defaultprofile << std::endl;
 	std::map<std::wstring, std::vector<SettingInfo>> profiles = pInfo.PowerEnumerateProfiles();
 	std::wcout << L"Available Power Profiles and Filtered Settings:\n";

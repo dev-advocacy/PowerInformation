@@ -46,7 +46,4 @@ public:
     bool GetPowerSettingValue(const std::wstring& profileName, const std::wstring& settingName, bool ac, DWORD& outValue);
 };
 
-// Helper functions for string conversion
-std::string WideToUtf8(const std::wstring& wstr);
-std::string WideToUtf8(const wchar_t* wstr);
 

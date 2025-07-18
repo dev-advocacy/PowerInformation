@@ -58,10 +58,9 @@ To use the PowerInformation tool, open a command prompt and navigate to the dire
 
 ```sh
 PowerInformation.exe Help
-
-
 PowerInformation.exe Query
 PowerInformation.exe Set <ProfileName> <SettingName> <Value>
+PowerInformation.exe Dump <ProfileName>
 ```
 
 ## Command-Line Arguments
@@ -70,6 +69,7 @@ No parameters: Displays processor information and available power profiles.
 Help: Displays help information.
 Query: Queries the current power settings.
 Set <ProfileName> <SettingName> <Value>: Sets a specific power setting for the given profile.
+Dump <ProfileName>: Dumps all settings and their AC/DC values for the specified profile.
 ```
 
 ## Example Commands
@@ -79,4 +79,5 @@ PowerInformation.exe Help
 PowerInformation.exe Query
 PowerInformation.exe Set "Balanced" "ProcessorPerformanceBoost" "Enabled"
 PowerInformation.exe Set "Balanced" "Heterogeneous thread scheduling policy" 5
+PowerInformation.exe Dump "Balanced" Prints all settings and their AC/DC values for the specified profile.
 ```

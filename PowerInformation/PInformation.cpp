@@ -12,26 +12,6 @@
 #include "pch.h"
 #include "PInformation.h"
 
-// Helper function to convert wide string to UTF-8 std::string
-std::string WideToUtf8(const std::wstring& wstr)
-{
-    if (wstr.empty()) return std::string();
-    int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
-    std::string strTo(size_needed, 0);
-    WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
-    return strTo;
-}
-
-// Helper function to convert wide C-string to UTF-8 std::string
-std::string WideToUtf8(const wchar_t* wstr)
-{
-    if (!wstr) return std::string();
-    int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr, (int)wcslen(wstr), NULL, 0, NULL, NULL);
-    std::string strTo(size_needed, 0);
-    WideCharToMultiByte(CP_UTF8, 0, wstr, (int)wcslen(wstr), &strTo[0], size_needed, NULL, NULL);
-    return strTo;
-}
-
 // Helper function to read friendly name for a power setting
 static std::wstring ReadFriendlyName(const GUID* scheme, const GUID* subgroup, const GUID* setting)
 {
@@ -94,8 +74,12 @@ std::vector<SettingInfo> PInformation::EnumerateAllSettingsValues(const GUID* sc
             info.description = ReadDescription(schemeGuid, &subgroup_guid, &setting_guid);
             if (info.name.empty()) {
                 wchar_t setting_guid_str[64] = {};
-                StringFromGUID2(setting_guid, setting_guid_str, 64);
-                info.name = setting_guid_str;
+                if (StringFromGUID2(setting_guid, setting_guid_str, 64) > 0) {
+                    info.name = setting_guid_str;
+                } else {
+                    // Handle the error case if needed
+                    info.name = L"<invalid GUID>";
+                }
             }
             DWORD type = 0;
             BYTE buffer[256] = {};
@@ -134,8 +118,11 @@ std::map<std::wstring, std::vector<SettingInfo>> PInformation::PowerEnumeratePro
         std::wstring profileName = (dwRet == ERROR_SUCCESS) ? wszName : L"";
         if (profileName.empty()) {
             wchar_t scheme_guid_str[64] = {};
-            StringFromGUID2(scheme_guid, scheme_guid_str, 64);
-            profileName = scheme_guid_str;
+            if (StringFromGUID2(scheme_guid, scheme_guid_str, 64) > 0) {
+                profileName = scheme_guid_str;
+            } else {
+                profileName = L"<invalid GUID>";
+            }
         }
         std::vector<SettingInfo> settings = EnumerateAllSettingsValues(&scheme_guid);
         profileSettingsMap[profileName] = settings;
@@ -195,8 +182,11 @@ bool PInformation::SetPowerSettingValue(const std::wstring& profileName, const s
         std::wstring foundProfile = (dwRet == ERROR_SUCCESS) ? wszName : L"";
         if (foundProfile.empty()) {
             wchar_t scheme_guid_str[64] = {};
-            StringFromGUID2(scheme_guid, scheme_guid_str, 64);
-            foundProfile = scheme_guid_str;
+            if (StringFromGUID2(scheme_guid, scheme_guid_str, 64) > 0) {
+                foundProfile = scheme_guid_str;
+            } else {
+                foundProfile = L"<invalid GUID>";
+            }
         }
         if (foundProfile == profileName) {
             // Find setting GUID
@@ -211,8 +201,11 @@ bool PInformation::SetPowerSettingValue(const std::wstring& profileName, const s
                     std::wstring foundSetting = ReadFriendlyName(&scheme_guid, &subgroup_guid, &setting_guid);
                     if (foundSetting.empty()) {
                         wchar_t setting_guid_str[64] = {};
-                        StringFromGUID2(setting_guid, setting_guid_str, 64);
-                        foundSetting = setting_guid_str;
+                        if (StringFromGUID2(setting_guid, setting_guid_str, 64) > 0) {
+                            foundSetting = setting_guid_str;
+                        } else {
+                            foundSetting = L"<invalid GUID>";
+                        }
                     }
                     if (foundSetting == settingName) {
                         // Set value for AC or DC
@@ -246,8 +239,11 @@ bool PInformation::GetPowerSettingValue(const std::wstring& profileName, const s
         std::wstring foundProfile = (dwRet == ERROR_SUCCESS) ? wszName : L"";
         if (foundProfile.empty()) {
             wchar_t scheme_guid_str[64] = {};
-            StringFromGUID2(scheme_guid, scheme_guid_str, 64);
-            foundProfile = scheme_guid_str;
+            if (StringFromGUID2(scheme_guid, scheme_guid_str, 64) > 0) {
+                foundProfile = scheme_guid_str;
+            } else {
+                foundProfile = L"<invalid GUID>";
+            }
         }
         if (foundProfile == profileName) {
             DWORD subgroup_idx = 0;
@@ -261,8 +257,11 @@ bool PInformation::GetPowerSettingValue(const std::wstring& profileName, const s
                     std::wstring foundSetting = ReadFriendlyName(&scheme_guid, &subgroup_guid, &setting_guid);
                     if (foundSetting.empty()) {
                         wchar_t setting_guid_str[64] = {};
-                        StringFromGUID2(setting_guid, setting_guid_str, 64);
-                        foundSetting = setting_guid_str;
+                        if (StringFromGUID2(setting_guid, setting_guid_str, 64) > 0) {
+                            foundSetting = setting_guid_str;
+                        } else {
+                            foundSetting = L"<invalid GUID>";
+                        }
                     }
                     if (foundSetting == settingName) {
                         DWORD type = 0;

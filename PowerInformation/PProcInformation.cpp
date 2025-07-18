@@ -26,9 +26,9 @@ bool PProcInformation::IsIntelHybridArchDetected() {
 
 // Dumps P-core and E-core counts to console
 void PProcInformation::DumpCoreTypes() {
-    std::cout << "Intel Hybrid Architecture Detected: " << (intelHybridArchDetected ? "Yes" : "No") << std::endl;
-    std::cout << "P-Cores: " << pCoreCount << std::endl;
-    std::cout << "E-Cores: " << eCoreCount << std::endl;
+    std::wcout << L"Intel Hybrid Architecture Detected: " << (intelHybridArchDetected ? L"Yes" : L"No") << std::endl;
+    std::wcout << L"P-Cores: " << pCoreCount << std::endl;
+    std::wcout << L"E-Cores: " << eCoreCount << std::endl;
 }
 
 // Detects core types using Windows API (Windows 11+)

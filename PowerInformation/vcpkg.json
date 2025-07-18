@@ -1,8 +1,8 @@
 {
   "name": "monacoeditor",
   "version-string": "1,0,0,0",
-  "description": "monacoeditor windows application",
-  "homepage": "",
+  "description": "powerinformation windows application",
+  "homepage": "http://localhost",
   "dependencies": [
     {
       "name": "wil",

@@ -11,7 +11,6 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #define BOOST_USE_WINAPI_VERSION	0x0601
 
-#define COMPFOLDER 	L"PowerInformation"
 
 
 #include <iostream>
@@ -35,6 +34,9 @@
 #include <unordered_set>
 #include <sstream>
 #include <algorithm>
+#include <fcntl.h>
+#include <io.h>
+#include <stdio.h>
 
 #include <wil/result.h>
 #include <wil/resource.h>
